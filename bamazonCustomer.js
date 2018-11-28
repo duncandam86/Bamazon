@@ -14,6 +14,7 @@ let connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // console.log("connected as id " + connection.threadId);
+    console.log(chalk.black.bgYellow.bold("WELCOME TO BAMAZON STORE"));
     productsForSale();
 });
 
@@ -25,12 +26,11 @@ function productsForSale() {
                 throw err;
             };
             results.forEach(function (row) {
-                console.log(chalk.cyan(`
-            \n------------------------------
-            \n item_id: ${row.item_id}
-            \n Product: ${row.product_name}
-            \n Price: ${row.price}
-            \n------------------------------`));
+                console.log(`------------------------------`);
+                console.log(chalk.cyan(`item_id: ${row.item_id}
+                \nProduct: ${row.product_name}
+                \nPrice: ${row.price}`));
+                console.log(`------------------------------`);
             })
             userPromptForPurchase()
         });
@@ -56,8 +56,8 @@ function productsForSale() {
             console.log(chalk.blue(`Customer has chosen item with item_id: ${chalk.red.bold(res.item_id)} and quantity: ${chalk.red.bold(res.quantity)}`))
             // Query db to confirm that the item exists
             connection.query(`SELECT* 
-        FROM products 
-        WHERE item_id = ${res.item_id}`, function (err, results) {
+            FROM products 
+            WHERE item_id = ${res.item_id}`, function (err, results) {
                     // console.log(results)
                     if (err) {
                         throw err
@@ -80,17 +80,17 @@ function productsForSale() {
                                     throw err
                                 }
                                 //Inform user how much it costs
-                                console.log(chalk.magenta.bold(`\n-----------------------
-                                \nYour order has been placed. Your total cost is: ${(results[0].price) * (res.quantity)}
-                                \nThank you for shopping with us!
-                                \n-----------------------`));
+                                console.log(`-----------------------`);
+                                console.log(chalk.magenta.bold(`Your order has been placed. Your total cost is: ${(results[0].price) * (res.quantity)}
+                                \nThank you for shopping with us!`));
+                                console.log(`-----------------------`);
 
                                 // end connection here
                                 connection.end()
                             })
                         }
                         else {
-                            console.log(chalk.red(`\n Unfortunately, we have insufficient quantity of the product you requested
+                            console.log(chalk.red(`Unfortunately, we have insufficient quantity of the product you requested
                             \n Please modify your order or order other products`));
                             userPromptForPurchase()
 
