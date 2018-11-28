@@ -40,8 +40,9 @@ function productsForSale() {
             // lowInventory();
             // addInventory();
             // addNewProduct();
+            connection.end()
         });
-    connection.end()
+    
 }
 
 //function to show products with low inventory
@@ -62,8 +63,9 @@ function lowInventory() {
                 \nQuantity: ${row.stock_quantity}`));
                 console.log(`------------------------------`);
             })
+            connection.end()
         });
-    connection.end()
+    
 }
 
 //function add an inventory to stock
