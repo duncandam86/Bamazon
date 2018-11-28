@@ -19,7 +19,8 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // console.log("connected as id " + connection.threadId);
-    productsForSale()
+    // productsForSale()
+    promptManager()
 });
 
 //function to show all products for sale
@@ -37,7 +38,8 @@ function productsForSale() {
                 console.log(`------------------------------`);
             })
             // lowInventory();
-            addInventory();
+            // addInventory();
+            // addNewProduct();
         });
     connection.end()
 }
@@ -114,14 +116,96 @@ function addInventory() {
                     });
 
                 }
+                connection.end();
             });
+            
     });
+    
 }
 
 //function adding a new product
 function addNewProduct(){
     // prompt to add new product
     inquirer.prompt([
+        {
+            type: "input",
+            name: "product_name",
+            message: "Please enter the name of the product:",
+        },
+        {
+            type: "input",
+            name: "department_name",
+            message: "Please enter the department that the product belongs to:",
+        },
+        {
+            type: "input",
+            name: "price",
+            message: "Please enter the price of the product:",
+            filter: Number
+        },
+        {
+            type: "input",
+            name: "stock_quantity",
+            message: "Please enter the quantity of the product:",
+            filter: Number
+        }
+    ]).then(function(input){
+        // console.log (input)
+        console.log(chalk.magenta(`Adding a new product:`))
+        console.log ("****")
+        console.log(chalk.yellow(`Product: ${input.product_name}
+        \nDepartment: ${input.department_name}
+        \nPrice: ${input.price}
+        \nQuantity: ${input.stock_quantity}`))
+        console.log ("****")
+        //Insert into the db
+        connection.query(`INSERT INTO products SET ?`,input, function (err, results){
+            // console.log (results)
+            if (err) {
+                throw err;
+            }
+            console.log(chalk.blue(`New product has been added to the list`));
+            connection.end()
+        })
         
-    ]) 
+    }) 
+    
+}
+// function to prompt manager what they want to do
+function promptManager(){
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "action",
+            message: "Please select what you want to do",
+            choices: ["List of Products for Sale", "Low Inventory Products", "Add to Inventory", "Add New Product"],
+            filter: function(choice){
+                if (choice === "List of Products for Sale"){
+                    return "product"
+                }
+                else if (choice ===  "Low Inventory Products"){
+                    return "lowInventory"
+                }
+                else if (choice === "Add to Inventory"){
+                    return "addInventory"
+                }
+                else if (choice === "Add New Product"){
+                    return "newProduct"
+                }
+            }
+        }
+    ]).then(function(data){
+        if (data.action === "product"){
+            productsForSale();
+        }
+        else if (data.action === "lowInventory"){
+            lowInventory()
+        }
+        else if (data.action === "addInventory"){
+            addInventory()
+        }
+        else if(data.action === "newProduct"){
+            addNewProduct()
+        }
+    })
 }
