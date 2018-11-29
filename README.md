@@ -35,5 +35,18 @@ We created an Amazon-like storefront using MySQL. The app will take in orders fr
     3. If a manager selects `View Low Inventory`, the app lists all items with an inventory count lower than 120.
         * For example: https://github.com/duncandam86/Bamazon/blob/master/manager_images/Low%20inventory%20products.png
 
-    4. If a manager selects `Add to Inventory`, this app displays a prompt that will let the manager "add more" of any item currently in the store and update the new inventory once all inputs are enterted.
-        * For example:
+    4. If a manager selects `Add to Inventory`, this app displays a prompt that will let the manager "add more" of any item currently in the store and update the new inventory in database once all inputs are enterted.
+        * For example: https://github.com/duncandam86/Bamazon/blob/master/manager_images/Add%20new%20inventory.png
+    
+    5. If a manager selects `Add New Product`, this app allows the manager to add a completely new product to the store and update in database
+        * For example: https://github.com/duncandam86/Bamazon/blob/master/manager_images/Adding%20new%20products.png
+
+## Technical Requirements:
+* Javascript
+* Node.js
+* MySQL (MySQL workbench)
+* Packages:
+  * [inquirer](https://www.npmjs.com/package/inquirer)
+  * [chalk](https://www.npmjs.com/package/chalk)
+  * [mysql](https://www.npmjs.com/package/mysql)
+
