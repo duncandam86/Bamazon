@@ -6,8 +6,8 @@ const chalk = require("chalk");
 let connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
-    user: "root",
-    password: "gowabash1302!",
+    user: "temptuser",
+    password: "12345678",
     database: "bamazon"
 });
 
@@ -34,7 +34,6 @@ function productsForSale() {
             })
             userPromptForPurchase()
         });
-    connection.end()
 }
 
 // function to prompt user to ask them which item_id and how many units they like
@@ -86,10 +85,10 @@ function userPromptForPurchase() {
                                 console.log(chalk.magenta.bold(`Your order has been placed. Your total cost is: ${(results[0].price) * (res.quantity)}
                                 \nThank you for shopping with us!`));
                                 console.log(`-----------------------`);
-
-                                // end connection here
-                                connection.end()
+                                
                             })
+                            // end connection here
+                                connection.end()
                     }
                     else {
                         console.log(chalk.red(`Unfortunately, we have insufficient quantity of the product you requested
